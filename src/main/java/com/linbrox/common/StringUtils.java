@@ -6,6 +6,8 @@ public final class StringUtils {
 
     public static final String DIGIT_FORMAT_PATTERN = "-?\\d+(\\.\\d+)?";
 
+    public static final String EMAIL_FORMAT_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
     private StringUtils() {
     }
 
@@ -30,7 +32,7 @@ public final class StringUtils {
     }
 
     public static boolean isEmail(@NonNull String str) {
-        return str.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+        return str.matches(EMAIL_FORMAT_PATTERN);
     }
 
 }
