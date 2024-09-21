@@ -22,4 +22,16 @@ class StringUtilsTest {
         boolean actual = StringUtils.isEmail("algo@gmail.com");
         assertTrue(actual);
     }
+
+    @Test
+    void shouldReturnFalseWhenEmailIsInvalid() {
+        boolean actual = StringUtils.isEmail("isInvalidEmail");
+        assertFalse(actual);
+    }
+
+    @Test
+    void shouldReturnTrueWhenStringIsNumeric() {
+        boolean actual = StringUtils.isNumeric("123");
+        assertTrue(actual);
+    }
 }
