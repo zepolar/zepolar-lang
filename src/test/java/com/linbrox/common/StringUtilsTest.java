@@ -18,7 +18,7 @@ class StringUtilsTest {
     }
 
     @Test
-    void shoultReturnTrueWhenEmailisValid() {
+    void shouldReturnTrueWhenEmailIIsValid() {
         boolean actual = StringUtils.isEmail("algo@gmail.com");
         assertTrue(actual);
     }
