@@ -17,4 +17,9 @@ class StringUtilsTest {
         assertThrows( Exception.class, ()-> StringUtils.isEmpty(null));
     }
 
+    @Test
+    void shoultReturnTrueWhenEmailisValid() {
+        boolean actual = StringUtils.isEmail("algo@gmail.com");
+        assertTrue(actual);
+    }
 }
