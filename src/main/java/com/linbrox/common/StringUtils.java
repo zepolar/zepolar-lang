@@ -29,4 +29,8 @@ public final class StringUtils {
         return str.matches(DIGIT_FORMAT_PATTERN);
     }
 
+    public static boolean isEmail(@NonNull String str) {
+        return str.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
 }
