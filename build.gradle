@@ -1,0 +1,90 @@
+plugins {
+    id 'java-library'
+    id "jacoco"
+    id "maven-publish"
+}
+
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    withSourcesJar()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+
+    compileOnly 'org.projectlombok:lombok:1.18.26'
+    annotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+    compileOnly 'org.slf4j:slf4j-api:2.0.5'
+
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    // Use JUnit Jupiter for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'org.slf4j:slf4j-api:2.0.5'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        xml.destination file("$buildDir/jacoco/test.xml")
+        html.destination file("$buildDir/jacoco/index.html")
+        html.required = true
+        csv.required = true
+    }
+
+
+}
+
+version = '1.0.0'
+
+publishing {
+
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            groupId 'com.linbrox.lang'
+            artifactId 'lib-zepolar-lang'
+            version= project.version
+        }
+    }
+
+    repositories {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = "https://maven.pkg.github.com/zepolar/zepolar-lang"
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
+        }
+    }
+}
+
+jar {
+
+    into("META-INF/maven/$project.group/$project.name") {
+        from generatePomFileForMavenPublication
+        rename ".*", "pom.xml"
+    }
+}
+
+
