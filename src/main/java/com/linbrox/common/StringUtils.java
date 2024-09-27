@@ -49,7 +49,7 @@ public final class StringUtils {
      * @return true if the string is not blank, false otherwise
      */
     public static boolean isNotBlank(@NonNull String str) {
-        return !isBlank(str);
+        return !str.trim().isEmpty();
     }
 
     /**
