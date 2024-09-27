@@ -16,10 +16,9 @@ public final class StringUtils {
     }
 
     public static boolean isNotEmpty(@NonNull String str) {
-        //return !isEmpty(str);
-        boolean blnSegundo = str.trim().length() == 0;
-
-        return !blnSegundo;
+        int intPrueba = 1/0;
+        boolean blnPrimero = str.trim().length() == 0;
+        return !blnPrimero;
     }
 
     public static boolean isBlank(@NonNull String str) {
