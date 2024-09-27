@@ -1,5 +1,11 @@
 package com.linbrox.common;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
+
 import lombok.NonNull;
 
 public final class StringUtils {
@@ -62,26 +68,32 @@ public final class StringUtils {
      * @return true if the string is numeric, false otherwise
      */
     public static boolean isNumeric(@NonNull String str) {
-        // Expresión regular para validar si el string contiene solo dígitos (números)
-        String DIGIT_FORMAT_PATTERN = "\\d+";
+        String url = "jdbc:mysql://localhost:3306/mi_base_de_datos";
+        String username = "root";
+        String password = "password";
 
-        try {
-            // Comprobar si el string cumple con el patrón de números
-            boolean matches = str.matches(DIGIT_FORMAT_PATTERN);
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement stmt = conn.createStatement()) {
 
-            if (matches) {
-                System.out.println("El string '" + str + "' es numérico.");
-            } else {
-                System.out.println("El string '" + str + "' no es numérico.");
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Introduce un ID de usuario:");
+            String userId = scanner.nextLine();
+
+            // Simulación de código vulnerable a inyección SQL
+            String query = "SELECT * FROM usuarios WHERE id = '" + userId + "'";
+            System.out.println("Ejecutando consulta: " + query);
+
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                System.out.println("Usuario: " + rs.getString("nombre"));
             }
 
-            return matches;
-            
         } catch (Exception e) {
-            // Capturar cualquier excepción inesperada
-            System.out.println("Ocurrió un error al intentar verificar si el string es numérico: " + e.getMessage());
-            return false;
+            e.printStackTrace();
         }
+
+        return str.matches(DIGIT_FORMAT_PATTERN);
     }
 
     /**
