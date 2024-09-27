@@ -24,15 +24,13 @@ public final class StringUtils {
 
     /**
      * Checks if a string is not empty.
+     * It is not being validated if the variable arrives as null
      *
      * @param str the string to check
      * @return true if the string is not empty, false otherwise
      */
-    public static boolean isNotEmpty(@NonNull String str) {
-        //return !isEmpty(str);
-        boolean blnSegundo = str.trim().length() == 0;
-
-        return !blnSegundo;
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
     }
 
     /**
