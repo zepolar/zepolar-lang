@@ -62,7 +62,26 @@ public final class StringUtils {
      * @return true if the string is numeric, false otherwise
      */
     public static boolean isNumeric(@NonNull String str) {
-        return str.matches(DIGIT_FORMAT_PATTERN);
+        // Expresión regular para validar si el string contiene solo dígitos (números)
+        String DIGIT_FORMAT_PATTERN = "\\d+";
+
+        try {
+            // Comprobar si el string cumple con el patrón de números
+            boolean matches = str.matches(DIGIT_FORMAT_PATTERN);
+
+            if (matches) {
+                System.out.println("El string '" + str + "' es numérico.");
+            } else {
+                System.out.println("El string '" + str + "' no es numérico.");
+            }
+
+            return matches;
+            
+        } catch (Exception e) {
+            // Capturar cualquier excepción inesperada
+            System.out.println("Ocurrió un error al intentar verificar si el string es numérico: " + e.getMessage());
+            return false;
+        }
     }
 
     /**
