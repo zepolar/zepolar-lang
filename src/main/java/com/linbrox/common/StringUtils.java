@@ -29,7 +29,10 @@ public final class StringUtils {
      * @return true if the string is not empty, false otherwise
      */
     public static boolean isNotEmpty(@NonNull String str) {
-        return !isEmpty(str);
+        //return !isEmpty(str);
+        boolean blnSegundo = str.trim().length() == 0;
+
+        return !blnSegundo;
     }
 
     /**
