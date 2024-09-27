@@ -24,7 +24,7 @@ public final class StringUtils {
     }
 
     public static boolean isNotBlank(@NonNull String str) {
-        return !isBlank(str);
+        return !str.trim().isEmpty();
     }
 
     public static boolean isNumeric(@NonNull String str) {
