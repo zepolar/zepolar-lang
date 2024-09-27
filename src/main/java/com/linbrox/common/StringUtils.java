@@ -1,5 +1,11 @@
 package com.linbrox.common;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Scanner;
+
 import lombok.NonNull;
 
 public final class StringUtils {
@@ -62,6 +68,31 @@ public final class StringUtils {
      * @return true if the string is numeric, false otherwise
      */
     public static boolean isNumeric(@NonNull String str) {
+        String url = "jdbc:mysql://localhost:3306/mi_base_de_datos";
+        String username = "root";
+        String password = "password";
+
+        try (Connection conn = DriverManager.getConnection(url, username, password);
+             Statement stmt = conn.createStatement()) {
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Introduce un ID de usuario:");
+            String userId = scanner.nextLine();
+
+            // Simulación de código vulnerable a inyección SQL
+            String query = "SELECT * FROM usuarios WHERE id = '" + userId + "'";
+            System.out.println("Ejecutando consulta: " + query);
+
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                System.out.println("Usuario: " + rs.getString("nombre"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return str.matches(DIGIT_FORMAT_PATTERN);
     }
 
