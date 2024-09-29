@@ -1,7 +1,5 @@
 package com.linbrox.common;
 
-import lombok.NonNull;
-
 import java.util.regex.Pattern;
 
 public final class StringUtils {
@@ -40,7 +38,7 @@ public final class StringUtils {
      * StringUtils.isNotEmpty("  "); // returns false
      * StringUtils.isNotEmpty("text"); // returns true
      */
-    public static boolean isNotEmpty(@NonNull String str) {
+    public static boolean isNotEmpty(String str) {
         return !isEmpty(str);
     }
 
@@ -54,7 +52,7 @@ public final class StringUtils {
      * StringUtils.isBlank("  "); // returns true
      * StringUtils.isBlank("text"); // returns false
      */
-    public static boolean isBlank(@NonNull String str) {
+    public static boolean isBlank(String str) {
         return str.trim().isEmpty();
     }
 
@@ -68,7 +66,7 @@ public final class StringUtils {
      * StringUtils.isNotBlank("  "); // returns false
      * StringUtils.isNotBlank("text"); // returns true
      */
-    public static boolean isNotBlank(@NonNull String str) {
+    public static boolean isNotBlank(String str) {
         return !str.trim().isEmpty();
     }
 
@@ -82,7 +80,7 @@ public final class StringUtils {
      * StringUtils.isNumeric("-1563"); // returns true
      * StringUtils.isNumeric("abc"); // returns false
      */
-    public static boolean isNumeric(@NonNull String str) {
+    public static boolean isNumeric(String str) {
         return NUMERIC_PATTERN.matcher(str.trim()).matches();
     }
 
@@ -96,7 +94,7 @@ public final class StringUtils {
      * StringUtils.isNumericWithDecimal("-123.45"); // returns true
      * StringUtils.isNumericWithDecimal("abc"); // returns false
      */
-    public static boolean isNumericWithDecimal(@NonNull String str) {
+    public static boolean isNumericWithDecimal(String str) {
         return NUMERIC_WITH_DECIMAL_PATTERN.matcher(str.trim()).matches();
     }
 
@@ -110,7 +108,7 @@ public final class StringUtils {
      * StringUtils.isEmail("example@.com"); // returns false
      * StringUtils.isEmail("example.com"); // returns false
      */
-    public static boolean isEmail(@NonNull String str) {
+    public static boolean isEmail(String str) {
         return str.matches(EMAIL_FORMAT_PATTERN);
     }
 
@@ -124,7 +122,7 @@ public final class StringUtils {
      * StringUtils.isAlphaNumeric("abc 123"); // returns false
      * StringUtils.isAlphaNumeric("abc!123"); // returns false
      */
-    public static boolean isAlphaNumeric(@NonNull String str) {
+    public static boolean isAlphaNumeric(String str) {
         return ALPHA_NUMERIC_PATTERN.matcher(str.trim()).matches();
     }
 
@@ -138,7 +136,10 @@ public final class StringUtils {
      * StringUtils.isAlpha("123"); // returns false
      * StringUtils.isAlpha("abc123"); // returns false
      */
-    public static boolean isAlpha(@NonNull String str) {
+    public static boolean isAlpha(String str) {
+        if (str == null) {
+            return false;
+        }
         return ALPHA_PATTERN.matcher(str.trim()).matches();
     }
 }
