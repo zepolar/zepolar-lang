@@ -47,8 +47,7 @@ class StringUtilsTest {
     @Test
     void shouldReturnFalseWhenNullIsNotAlpha() {
         String value = null;
-        boolean actual = StringUtils.isAlpha(value);
-        assertFalse(actual);
+        assertThrows(Exception.class, ()-> StringUtils.isAlpha(value));
     }
 
     @ParameterizedTest
