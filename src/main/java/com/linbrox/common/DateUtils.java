@@ -1,11 +1,11 @@
 package com.linbrox.common;
 
-import lombok.NonNull;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
+import java.util.Objects;
 
 public final class DateUtils {
 
@@ -25,7 +25,7 @@ public final class DateUtils {
      *                                System.out.println(isFuture); // Should print true if executed immediately
      *                              </pre>
      */
-    public static boolean isFutureDate(@NonNull Date date) {
+    public static boolean isFutureDate(Date date) {
         return LocalDate.now().isBefore(date.toInstant().atZone(java.time.ZoneId.systemDefault()).toLocalDate());
     }
 
@@ -44,8 +44,10 @@ public final class DateUtils {
      *                                  System.out.println(isPast); // Should print true if the current date is after 2023-01-01
      *                                </pre>
      */
-    public static boolean isPastDate(@NonNull String date) {
-        return LocalDateTime.now().isAfter(LocalDateTime.parse(date));
+    public static boolean isPastDate(String date) {
+        Objects.requireNonNull(date, "Date cannot be null");
+        LocalDateTime dated = LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return LocalDateTime.now().isAfter(dated);
     }
 
 }

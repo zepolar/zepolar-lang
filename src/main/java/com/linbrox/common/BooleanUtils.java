@@ -22,7 +22,7 @@ public final class BooleanUtils {
      *                              }
      *                              </pre>
      */
-    public static Boolean toBoolean(@NonNull String value) {
+    public static Boolean toBoolean(String value) {
         return Boolean.valueOf(value);
     }
 
@@ -42,7 +42,7 @@ public final class BooleanUtils {
      *                                  }
      *                                  </pre>
      */
-    public static Boolean toBoolean(@NonNull Integer value) {
+    public static Boolean toBoolean(Integer value) {
         if (value != 0 && value != 1) {
             throw new IllegalArgumentException("Integer value must be either 0 or 1");
         }

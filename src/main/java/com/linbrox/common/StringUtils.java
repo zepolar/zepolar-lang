@@ -1,5 +1,6 @@
 package com.linbrox.common;
 
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 public final class StringUtils {
@@ -137,9 +138,7 @@ public final class StringUtils {
      * StringUtils.isAlpha("abc123"); // returns false
      */
     public static boolean isAlpha(String str) {
-        if (str == null) {
-            return false;
-        }
+        Objects.requireNonNull(str, "String cannot be null");
         return ALPHA_PATTERN.matcher(str.trim()).matches();
     }
 }
