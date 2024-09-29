@@ -2,54 +2,71 @@ package com.linbrox.common;
 
 import lombok.NonNull;
 
+import java.util.regex.Pattern;
+
 public final class StringUtils {
 
-    public static final String DIGIT_FORMAT_PATTERN = "-?\\d+(\\.\\d+)?";
     public static final String EMAIL_FORMAT_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-    public static final String ALPHA_NUMERIC_REGEX = "[a-zA-Z0-9]+";
-    public static final String ALPHA_REGEX = "[a-zA-Z]+";
+    private static final Pattern ALPHA_PATTERN = Pattern.compile("^[a-zA-Z]+$");
+    private static final Pattern ALPHA_NUMERIC_PATTERN = Pattern.compile("^[a-zA-Z0-9]+$");
+    private static final Pattern NUMERIC_PATTERN = Pattern.compile("^[+-]?\\d+$");
+    private static final Pattern NUMERIC_WITH_DECIMAL_PATTERN = Pattern.compile("^[+-]?\\d+\\.\\d+$");
 
     private StringUtils() {
     }
 
+
     /**
-     * Checks if a string is empty.
+     * Checks if a string is empty (null or blank).
      *
      * @param str the string to check
-     * @return true if the string is empty, false otherwise
+     * @return {@code true} if the string is empty or blank, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isEmpty(" "); // returns true
+     * StringUtils.isEmpty("  "); // returns true
+     * StringUtils.isEmpty("text"); // returns false
      */
-    public static boolean isEmpty(@NonNull String str) {
-        return str.isEmpty();
+    public static boolean isEmpty(String str) {
+        return isBlank(str);
     }
 
     /**
-     * Checks if a string is not empty.
+     * Checks if a string is not empty (not null or not blank).
      *
      * @param str the string to check
-     * @return true if the string is not empty, false otherwise
+     * @return {@code true} if the string is not empty or not blank, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isNotEmpty(" "); // returns false
+     * StringUtils.isNotEmpty("  "); // returns false
+     * StringUtils.isNotEmpty("text"); // returns true
      */
     public static boolean isNotEmpty(@NonNull String str) {
-        //return !isEmpty(str);
-        boolean blnSegundo = str.trim().length() == 0;
-
-        return !blnSegundo;
+        return !isEmpty(str);
     }
 
     /**
-     * Checks if a string is blank (empty or contains only whitespace).
+     * Checks if a string is blank.
      *
      * @param str the string to check
-     * @return true if the string is blank, false otherwise
+     * @return {@code true} if the string is blank, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isBlank(" "); // returns true
+     * StringUtils.isBlank("  "); // returns true
+     * StringUtils.isBlank("text"); // returns false
      */
     public static boolean isBlank(@NonNull String str) {
-        return isEmpty(str) || str.trim().isEmpty();
+        return str.trim().isEmpty();
     }
 
     /**
-     * Checks if a string is not blank (not empty and contains non-whitespace characters).
+     * Checks if a string is not blank.
      *
      * @param str the string to check
-     * @return true if the string is not blank, false otherwise
+     * @return {@code true} if the string is not blank, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isNotBlank(" "); // returns false
+     * StringUtils.isNotBlank("  "); // returns false
+     * StringUtils.isNotBlank("text"); // returns true
      */
     public static boolean isNotBlank(@NonNull String str) {
         return !str.trim().isEmpty();
@@ -59,36 +76,39 @@ public final class StringUtils {
      * Checks if a string is numeric.
      *
      * @param str the string to check
-     * @return true if the string is numeric, false otherwise
+     * @return {@code true} if the string is numeric, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isNumeric(" 123 "); // returns true
+     * StringUtils.isNumeric("-1563"); // returns true
+     * StringUtils.isNumeric("abc"); // returns false
      */
     public static boolean isNumeric(@NonNull String str) {
-        // Expresión regular para validar si el string contiene solo dígitos (números)
-        String DIGIT_FORMAT_PATTERN = "\\d+";
+        return NUMERIC_PATTERN.matcher(str.trim()).matches();
+    }
 
-        try {
-            // Comprobar si el string cumple con el patrón de números
-            boolean matches = str.matches(DIGIT_FORMAT_PATTERN);
-
-            if (matches) {
-                System.out.println("El string '" + str + "' es numérico.");
-            } else {
-                System.out.println("El string '" + str + "' no es numérico.");
-            }
-
-            return matches;
-            
-        } catch (Exception e) {
-            // Capturar cualquier excepción inesperada
-            System.out.println("Ocurrió un error al intentar verificar si el string es numérico: " + e.getMessage());
-            return false;
-        }
+    /**
+     * Checks if a string is numeric with a decimal point.
+     *
+     * @param str the string to check
+     * @return {@code true} if the string is numeric with a decimal, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isNumericWithDecimal(" 123.45 "); // returns true
+     * StringUtils.isNumericWithDecimal("-123.45"); // returns true
+     * StringUtils.isNumericWithDecimal("abc"); // returns false
+     */
+    public static boolean isNumericWithDecimal(@NonNull String str) {
+        return NUMERIC_WITH_DECIMAL_PATTERN.matcher(str.trim()).matches();
     }
 
     /**
      * Checks if a string is a valid email address.
      *
      * @param str the string to check
-     * @return true if the string is a valid email address, false otherwise
+     * @return {@code true} if the string is a valid email, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isEmail("example@example.com"); // returns true
+     * StringUtils.isEmail("example@.com"); // returns false
+     * StringUtils.isEmail("example.com"); // returns false
      */
     public static boolean isEmail(@NonNull String str) {
         return str.matches(EMAIL_FORMAT_PATTERN);
@@ -98,19 +118,27 @@ public final class StringUtils {
      * Checks if a string is alphanumeric.
      *
      * @param str the string to check
-     * @return true if the string is alphanumeric, false otherwise
+     * @return {@code true} if the string is alphanumeric, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isAlphaNumeric(" abc123 "); // returns true
+     * StringUtils.isAlphaNumeric("abc 123"); // returns false
+     * StringUtils.isAlphaNumeric("abc!123"); // returns false
      */
     public static boolean isAlphaNumeric(@NonNull String str) {
-        return str.matches(ALPHA_NUMERIC_REGEX);
+        return ALPHA_NUMERIC_PATTERN.matcher(str.trim()).matches();
     }
 
     /**
-     * Checks if a string contains only alphabetic characters.
+     * Checks if a string contains only letters.
      *
      * @param str the string to check
-     * @return true if the string contains only alphabetic characters, false otherwise
+     * @return {@code true} if the string contains only letters, {@code false} otherwise
+     * @throws IllegalArgumentException if the string is null
+     * @example StringUtils.isAlpha(" abc "); // returns true
+     * StringUtils.isAlpha("123"); // returns false
+     * StringUtils.isAlpha("abc123"); // returns false
      */
     public static boolean isAlpha(@NonNull String str) {
-        return str.matches(ALPHA_REGEX);
+        return ALPHA_PATTERN.matcher(str.trim()).matches();
     }
 }

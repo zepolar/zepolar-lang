@@ -8,7 +8,7 @@ class StringUtilsTest {
 
     @Test
     void shouldReturnTrueWhenStringIsEmpty() {
-        boolean actual = StringUtils.isEmpty("");
+        boolean actual = StringUtils.isEmpty("     ");
         assertTrue(actual);
     }
 
@@ -19,13 +19,13 @@ class StringUtilsTest {
 
     @Test
     void shouldReturnTrueWhenEmailIIsValid() {
-        boolean actual = StringUtils.isEmail("algo@gmail.com");
+        boolean actual = StringUtils.isEmail( "algo@gmail.com");
         assertTrue(actual);
     }
 
     @Test
     void shouldReturnFalseWhenEmailIsInvalid() {
-        boolean actual = StringUtils.isEmail("isInvalidEmail");
+        boolean actual = StringUtils.isEmail("isInvalidEmail@");
         assertFalse(actual);
     }
 
