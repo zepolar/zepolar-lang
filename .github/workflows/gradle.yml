@@ -55,8 +55,11 @@ jobs:
       - name: Running Test
         run: ./gradlew test
 
+      - name: Running Mutation Test
+        run: ./gradlew
+
   security:
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
@@ -71,7 +74,8 @@ jobs:
       - name: Analysing SAST
         uses: pmd/pmd-github-action@v2
         with:
-          rulesets: 'ruleset.xml'
+          rulesets: 'category/java/bestpractices.xml'
+          sourcePath: 'src/main/java'
 
       - name: Fail build if there are violations
         if: steps.pmd.outputs.violations != 0
