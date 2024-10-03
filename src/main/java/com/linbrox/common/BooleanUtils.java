@@ -1,6 +1,6 @@
 package com.linbrox.common;
 
-import lombok.NonNull;
+import java.util.Objects;
 
 public final class BooleanUtils {
 
@@ -23,6 +23,7 @@ public final class BooleanUtils {
      *                              </pre>
      */
     public static Boolean toBoolean(String value) {
+        Objects.requireNonNull(value, "String cannot be null");
         return Boolean.valueOf(value);
     }
 
@@ -43,10 +44,13 @@ public final class BooleanUtils {
      *                                  </pre>
      */
     public static Boolean toBoolean(Integer value) {
+        Objects.requireNonNull(value, "Integer cannot be null");
         if (value != 0 && value != 1) {
             throw new IllegalArgumentException("Integer value must be either 0 or 1");
         }
         return value != 0;
     }
+
+
 
 }
