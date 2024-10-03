@@ -24,7 +24,6 @@ dependencies {
 
     compileOnly 'org.slf4j:slf4j-api:2.0.5'
 
-    implementation 'org.apache.commons:commons-lang3:3.14.0'
     // Use JUnit Jupiter for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
