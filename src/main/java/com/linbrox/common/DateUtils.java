@@ -186,15 +186,15 @@ public final class DateUtils {
     public static LocalDateTime randomDate() {
         long minDay = LocalDate.of(1900, 1, 1).toEpochDay();
         long maxDay = LocalDate.of(2100, 12, 31).toEpochDay();
-        long randomDay = minDay + (long) (Math.random() * (maxDay - minDay));
-        return LocalDate.ofEpochDay(randomDay).atStartOfDay().plusSeconds((long) (Math.random() * 86400));
+        long randomDay = minDay + (random.nextLong() * (maxDay - minDay));
+        return LocalDate.ofEpochDay(randomDay).atStartOfDay().plusSeconds(random.nextLong() * 86400);
     }
 
     public static LocalDateTime randomFutureDate() {
         long minDay = LocalDate.now().toEpochDay();
         long maxDay = LocalDate.now().plusYears(100).toEpochDay();
-        long randomDay = minDay + (long) (Math.random() * (maxDay - minDay));
-        return LocalDate.ofEpochDay(randomDay).atStartOfDay().plusSeconds((long) (Math.random() * 86400));
+        long randomDay = minDay + (random.nextLong() * (maxDay - minDay));
+        return LocalDate.ofEpochDay(randomDay).atStartOfDay().plusSeconds(random.nextLong() * 86400);
     }
 
     public static LocalDateTime randomPastDate() {
@@ -202,5 +202,22 @@ public final class DateUtils {
         long maxDay = LocalDate.now().toEpochDay();
         long randomDay = minDay + (random.nextLong() * (maxDay - minDay));
         return LocalDate.ofEpochDay(randomDay).atStartOfDay().plusSeconds(random.nextLong() * 86400);
+    }
+
+    public static boolean isDateBetween(Date date, Date startDate, Date endDate) {
+        Objects.requireNonNull(date, "Date cannot be null");
+        Objects.requireNonNull(startDate, "Start date cannot be null");
+        Objects.requireNonNull(endDate, "End date cannot be null");
+        return date.after(startDate) && date.before(endDate);
+    }
+
+    public static Date addWeeks(Date date, int weeks) {
+        Objects.requireNonNull(date, "Date cannot be null");
+        return new Date(date.getTime() + (long) weeks * 7 * 24 * 60 * 60 * 1000);
+    }
+
+    public static Date addDays(Date date, int days) {
+        Objects.requireNonNull(date, "Date cannot be null");
+        return new Date(date.getTime() + (long) days * 24 * 60 * 60 * 1000);
     }
 }

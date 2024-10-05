@@ -1,0 +1,83 @@
+# This workflow will run only on feature branches
+name: Build and Publish
+
+# Trigger the workflow on push or pull request for feature branches
+on:
+  push:
+    branches:
+      - 'develop/*'
+  pull_request:
+    branches:
+      - 'develop/*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+      - name: Set execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Fetch All Tags
+        run: git fetch --tags
+
+      - name: Get Latest RC Tag
+        id: get_latest_rc_tag
+        run: |
+          # Get all RC tags and sort them by version number
+          latest_tag=$(git tag | grep -E '^RC-[0-9]+$' | sort -V | tail -n 1)
+          echo "Latest RC tag: $latest_tag"
+          if [ -z "$latest_tag" ]; then
+            next_version="RC-1"
+          else
+            # Extract the latest RC number and increment it
+            latest_version=${latest_tag#RC-}
+            next_version="RC-$((latest_version + 1))"
+          fi
+          echo "Next RC version: $next_version"
+          echo "##[set-output name=rc_version;]$next_version"
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.10.2
+        with:
+          versionSpec: '5.x'
+
+      - name: Determine Version
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.10.2
+        with:
+          useConfigFile: true
+
+      - name: Set Gradle Version
+        run: ./gradlew -Pversion=${{ steps.get_latest_rc_tag.outputs.rc_version }} build
+
+      - name: Create a new RC release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ steps.get_latest_rc_tag.outputs.rc_version }} --generate-notes
+
+      - name: Publish to GitHub Packages
+        run: ./gradlew publish
+        env:
+          USERNAME: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
