@@ -7,6 +7,8 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Assertions;
+
 class StringUtilsTest {
 
     @ParameterizedTest
@@ -16,6 +18,12 @@ class StringUtilsTest {
         assertTrue(actual);
     }
 
+    @ParameterizedTest  
+    @ValueSource(strings = {"abc123", "test", "helloWorld", "myVariable", "Python3"})  
+    void shouldReturnTrueWhenStringIsAlphanumericWithoutSpaces(String value) {  
+        boolean actual = StringUtils.isAlphanumericWithoutSpaces(value);  
+        Assertions.assertTrue(actual, "This should be true for alphanumeric strings without spaces");  
+    }
 
     @Test
     void shouldThrownAnExceptionWhenStringIsNull() {

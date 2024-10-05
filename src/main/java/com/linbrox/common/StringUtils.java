@@ -232,6 +232,19 @@ public final class StringUtils {
         return true;
     }
 
-
+    public static boolean isAlphanumericWithoutSpaces(String str) {  
+        if (str == null || str.isEmpty()) {  
+            return false; // Considera que null o cadenas vacías no son alfanuméricas  
+        }  
+    
+        // Verifica que la cadena no contenga espacios y sea alfanumérica  
+        for (char c : str.toCharArray()) {  
+            if (!Character.isLetterOrDigit(c) || Character.isWhitespace(c)) {  
+                return false; // Si hay un carácter que no es alfanumérico o si es un espacio, devuelve false  
+            }  
+        }  
+    
+        return true; // Todos los caracteres son alfanuméricos y no hay espacios  
+    }
 
 }
