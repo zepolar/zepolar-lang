@@ -43,10 +43,7 @@ jobs:
     - name: Generate Beta Version
       run: echo "BETA_VERSION=beta-$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
-    - name: Build with Gradle
-      run: ./gradlew build
-
-    - name: Set Gradle Version
+    - name: Build and Set Gradle Version
       run: ./gradlew -Pversion=${BETA_VERSION} build
 
     - name: Create a new beta release

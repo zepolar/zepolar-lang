@@ -57,8 +57,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Running Test
-        run: ./gradlew test
+        run: gradle test
 
+      - name: Running Mutation Test
+        run: gradle pitest
 
   security:
     needs: test
