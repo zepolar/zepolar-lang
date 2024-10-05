@@ -1,8 +1,8 @@
 package com.linbrox.common;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -189,6 +189,28 @@ class StringUtilsTest {
     void shouldReturnFalseWhenStringIsNotNumericWithDecimals(String value) {
         boolean actual = StringUtils.isNumericWithDecimal(value);
         assertFalse(actual, "This should be false");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Abcdef1@, true",  // Valid password
+            "Qwerty9$, true",  // Valid password
+            "StrongPass1!, true",  // Valid password
+            "Secure@123, true",  // Valid password
+            "XyZ!7890, true",  // Valid password
+            "abcdefg, false",  // Missing uppercase letter
+            "ABCDEFGH, false",  // Missing lowercase letter
+            "12345678, false",  // Missing letter
+            "Abcdefgh, false"  // Missing digit
+    })
+    void shouldValidatePasswordSecurity(String password, boolean expected) {
+        boolean actual = StringUtils.isSecurePassword(password);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenPasswordIsNull() {
+        assertThrows(NullPointerException.class, () -> StringUtils.isSecurePassword(null));
     }
 
 }
