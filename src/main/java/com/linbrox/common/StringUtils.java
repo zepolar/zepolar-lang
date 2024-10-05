@@ -11,8 +11,21 @@ public final class StringUtils {
     private static final Pattern NUMERIC_PATTERN = Pattern.compile("^[+-]?\\d+$");
     private static final Pattern NUMERIC_WITH_DECIMAL_PATTERN = Pattern.compile("^[+-]?\\d+\\.\\d+$");
     private static final String STRING_CANNOT_BE_NULL = "String cannot be null";
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$");
 
     private StringUtils() {
+    }
+
+    /**
+     * Validates if a password is secure.
+     *
+     * @param password the password to validate
+     * @return {@code true} if the password is secure, {@code false} otherwise
+     * @throws NullPointerException if the password is null
+     */
+    public static boolean isSecurePassword(String password) {
+        Objects.requireNonNull(password, "Password cannot be null");
+        return PASSWORD_PATTERN.matcher(password).matches();
     }
 
     /**
