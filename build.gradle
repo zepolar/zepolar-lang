@@ -51,7 +51,6 @@ jacocoTestReport {
 
 }
 
-version = '1.0.0'
 
 publishing {
 
