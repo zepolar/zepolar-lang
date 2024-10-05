@@ -58,4 +58,72 @@ class NumericUtilsTest {
         assertThrows(Exception.class, () -> NumericUtils.toBigDecimal(value));
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "123",          // Simple integer
+            "0",            // Zero
+            "1234567890",   // Large number
+            "-42",          // Negative number
+            "+123"          // Positive number with leading sign
+    })
+    void shouldReturnLongWhenInputStringIsValid(String value) {
+        Long actual = NumericUtils.toLong(value);
+        assertEquals(Long.valueOf(value), actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "1.1",          // Decimal
+            "abc",          // Alphabetic characters
+            "123abc",       // Alphanumeric characters
+            "",             // Empty string
+            " ",            // Space
+            "1E10",         // Scientific notation
+            "NaN",          // Not a number
+            "Infinity"      // Infinity string
+    })
+    void shouldThrowExceptionWhenInputStringIsInvalidForLong(String value) {
+        assertThrows(NumberFormatException.class, () -> NumericUtils.toLong(value));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInputStringIsNullForLong() {
+        String value = null;
+        assertThrows(NumberFormatException.class, () -> NumericUtils.toLong(value));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "123.45",       // Simple float
+            "0.0",          // Zero
+            "1234567890.123456789", // Large number
+            "-42.42",       // Negative number
+            "+123.45"       // Positive number with leading sign
+    })
+    void shouldReturnFloatWhenInputStringIsValid(String value) {
+        Float actual = NumericUtils.toFloat(value);
+        assertEquals(Float.valueOf(value), actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "1.1.1",        // Multiple dots
+            "abc",          // Alphabetic characters
+            "123abc",       // Alphanumeric characters
+            "",             // Empty string
+            " ",            // Space
+            "1E10.5",       // Invalid scientific notation
+//            "NaN",          // Not a number
+//            "Infinity"      // Infinity string
+    })
+    void shouldThrowExceptionWhenInputStringIsInvalidForFloat(String value) {
+        assertThrows(Exception.class, () -> NumericUtils.toFloat(value));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenInputStringIsNullForFloat() {
+        String value = null;
+        assertThrows(Exception.class, () -> NumericUtils.toFloat(value));
+    }
+
 }
