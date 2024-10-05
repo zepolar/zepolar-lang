@@ -41,24 +41,19 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Generate Beta Version
-      id: generate_version
-      run: echo "beta-$(date +%Y%m%d%H%M%S)" > beta_version.txt
-
-    - name: Read Beta Version
-      id: read_version
-      run: echo "##[set-output name=beta_version;]$(cat beta_version.txt)"
+      run: echo "BETA_VERSION=beta-$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
 
     - name: Build with Gradle
       run: ./gradlew build
 
     - name: Set Gradle Version
-      run: ./gradlew -Pversion=${{ steps.read_version.outputs.beta_version }} build
+      run: ./gradlew -Pversion=${BETA_VERSION} build
 
     - name: Create a new beta release
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        gh release create ${{ steps.read_version.outputs.beta_version }} --generate-notes
+        gh release create ${BETA_VERSION} --generate-notes
 
     # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
     # the publishing section of your build.gradle
