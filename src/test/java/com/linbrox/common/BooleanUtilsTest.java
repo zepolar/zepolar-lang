@@ -1,62 +1,45 @@
 package com.linbrox.common;
 
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 class BooleanUtilsTest {
 
+    private static final Integer ONE = 1;
+    private static final Integer ZERO = 0;
+    private static final Integer NULL_VALUE = null;
 
     @Test
-    public void shouldReturnTrueWithValueOne() {
-        // Arrange
-        Integer value = 1;
-
-        // Act
-        Boolean result = BooleanUtils.toBoolean(value);
-
-        // Assert
-        assertTrue(result, "Expected true when input is 1");
+    void shouldReturnTrueForValueOne() {
+        assertBooleanConversion(ONE, true, "Expected true when input is 1");
     }
 
     @Test
-    public void shouldReturnFalseWithValueZero() {
-        // Arrange
-        Integer value = 0;
+    void shouldReturnFalseForValueZero() {
+        assertBooleanConversion(ZERO, false, "Expected false when input is 0");
+    }
 
+    // Métodos auxiliar para evitar repetición
+    private void assertBooleanConversion(Integer input, boolean expected, String message) {
         // Act
-        Boolean result = BooleanUtils.toBoolean(value);
-
+        Boolean result = BooleanUtils.toBoolean(input);
         // Assert
-        assertFalse(result, "Expected false when input is 0");
+        assertEquals(expected, result, message);
     }
 
     @Test
-    public void shouldReturnThrowsWithNullValue() {
-        // Arrange
-        Integer value = null;
-
-        // Act & Assert
-        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
-            BooleanUtils.toBoolean(value);
-        });
-
+    void shouldThrowExceptionForNullValue() {
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> BooleanUtils.toBoolean(NULL_VALUE));
         assertEquals("Integer cannot be null", exception.getMessage());
     }
 
-
     @ParameterizedTest
     @ValueSource(ints = {2, 3, -1, 4, 5})
-    public void shouldReturnThrowsWithInvalidValue(int value) {
-        // Act & Assert
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            BooleanUtils.toBoolean(value);
-        });
-
+    void shouldThrowExceptionForInvalidValues(int value) {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> BooleanUtils.toBoolean(value));
         assertEquals("Integer value must be either 0 or 1", exception.getMessage());
     }
 }
