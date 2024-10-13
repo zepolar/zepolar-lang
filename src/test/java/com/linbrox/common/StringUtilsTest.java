@@ -191,4 +191,143 @@ class StringUtilsTest {
         assertFalse(actual, "This should be false");
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "hola",            // Normal lowercase word
+            "java",            // Lowercase word
+            "prueba",          // Lowercase
+            "string"           // Lowercase
+    })
+    void shouldCapitalizeStringWhenFirstCharacterIsLowercase(String value) {
+        String actual = StringUtils.capitalize(value);
+        assertEquals(Character.toUpperCase(value.charAt(0)) + value.substring(1), actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Hola",            // Already capitalized
+            "Java",            // Already capitalized
+            "Test",            // Already capitalized
+    })
+    void shouldNotChangeStringWhenFirstCharacterIsAlreadyCapitalized(String value) {
+        String actual = StringUtils.capitalize(value);
+        assertEquals(value, actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "h",     // Single lowercase character
+            "J"      // Single uppercase character
+    })
+    void shouldCapitalizeSingleCharacterString(String value) {
+        String actual = StringUtils.capitalize(value);
+        assertEquals(value.toUpperCase(), actual);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStringIsNull() {
+        assertThrows(NullPointerException.class, () -> StringUtils.capitalize(null));
+    }
+
+    @Test
+    void shouldReturnEmptyStringWhenInputIsEmptyCapitalize() {
+        String value = "";
+        String actual = StringUtils.capitalize(value);
+        assertEquals("", actual);
+    }
+
+    @Test
+    void shouldCapitalizeFirstWordInSentence() {
+        String value = "prueba oración";
+        String expected = "Prueba oración";
+        String actual = StringUtils.capitalize(value);
+        assertEquals(expected, actual);
+    }
+
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "Hola",            // First letter uppercase
+            "Java",            // First letter uppercase
+            "Prueba",          // First letter uppercase
+            "String"           // First letter uppercase
+    })
+    void shouldUncapitalizeStringWhenFirstCharacterIsUppercase(String value) {
+        String actual = StringUtils.uncapitalize(value);
+        assertEquals(Character.toLowerCase(value.charAt(0)) + value.substring(1), actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "hola",            // Already lowercase
+            "java",            // Already lowercase
+            "prueba",          // Already lowercase
+    })
+    void shouldNotChangeStringWhenFirstCharacterIsAlreadyLowercase(String value) {
+        String actual = StringUtils.uncapitalize(value);
+        assertEquals(value, actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "H",     // Single uppercase character
+            "j"      // Single lowercase character
+    })
+    void shouldUncapitalizeSingleCharacterString(String value) {
+        String actual = StringUtils.uncapitalize(value);
+        assertEquals(value.toLowerCase(), actual);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStringIsNullUncapitalize() {
+        assertThrows(NullPointerException.class, () -> StringUtils.uncapitalize(null));
+    }
+
+    @Test
+    void shouldReturnEmptyStringWhenInputIsEmptyUncapitalize() {
+        String value = "";
+        String actual = StringUtils.uncapitalize(value);
+        assertEquals("", actual);
+    }
+
+    @Test
+    void shouldUncapitalizeFirstWordInSentence() {
+        String value = "Prueba oración";
+        String expected = "prueba oración";
+        String actual = StringUtils.uncapitalize(value);
+        assertEquals(expected, actual);
+    }
+
+
+    @Test
+    @DisplayName("Should throw an exception when input is null")
+    void shouldThrowExceptionWhenInputIsNull() {
+        assertThrows(NullPointerException.class, () -> StringUtils.reverse(null));
+    }
+
+    @Test
+    @DisplayName("Should return empty string when input is empty")
+    void shouldReturnEmptyStringWhenInputIsEmpty() {
+        String value = "";
+        String actual = StringUtils.reverse(value);
+        assertEquals("", actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"a", "ab", "abc", "palabra", "12345"})
+    @DisplayName("Should return the reversed string when input is not empty")
+    void shouldReturnReversedString(String value) {
+        String actual = StringUtils.reverse(value);
+        String expected = new StringBuilder(value).reverse().toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("Should return reversed sentence preserving spaces and punctuation")
+    void shouldReturnReversedSentence() {
+        String value = "Hola mundo!";
+        String actual = StringUtils.reverse(value);
+        assertEquals("!odnum aloH", actual);
+    }
+
 }

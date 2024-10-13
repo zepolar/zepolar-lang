@@ -153,11 +153,17 @@ public final class StringUtils {
 
     public static String capitalize(String str) {
         Objects.requireNonNull(str, STRING_CANNOT_BE_NULL);
+        if (str.isEmpty()) {
+            return str;
+        }
         return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
     public static String uncapitalize(String str) {
         Objects.requireNonNull(str, STRING_CANNOT_BE_NULL);
+        if (str.isEmpty()) {
+            return str;
+        }
         return str.substring(0, 1).toLowerCase() + str.substring(1);
     }
 
