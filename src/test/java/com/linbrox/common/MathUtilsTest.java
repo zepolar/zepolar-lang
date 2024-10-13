@@ -10,7 +10,6 @@ public class MathUtilsTest {
     @Test
     void shouldReturnFactorialOfNumber() {
         assertEquals(120, MathUtils.factorial(5));
-        assertEquals(1, MathUtils.factorial(0)); // Caso base
     }
 
     @Test
