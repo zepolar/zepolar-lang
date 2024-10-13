@@ -232,6 +232,26 @@ public final class StringUtils {
         return true;
     }
 
-
-
+    /**
+     * Validates if a string is a valid code based on length and starting characters.
+     *
+     * @param code the code to validate
+     * @param length the required length of the code
+     * @param startsWith the required starting characters of the code
+     * @return {@code true} if the code is valid, {@code false} otherwise
+     * @throws NullPointerException if the code is null
+     * @example StringUtils.isValidCode("AB1234", 6, "AB"); // returns true
+     * StringUtils.isValidCode("XY5678", 6, "AB"); // returns false
+     * StringUtils.isValidCode("123456", 6, ""); // returns true (no specific prefix)
+     */
+    public static boolean isValidCode(String code, int length, String startsWith) {
+        Objects.requireNonNull(code, STRING_CANNOT_BE_NULL);
+        if (code.length() != length) {
+            return false;
+        }
+        if (!startsWith.isEmpty() && !code.startsWith(startsWith)) {
+            return false;
+        }
+        return true;
+    }
 }

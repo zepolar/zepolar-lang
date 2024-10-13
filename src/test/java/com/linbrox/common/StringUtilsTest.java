@@ -3,6 +3,7 @@ package com.linbrox.common;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -189,6 +190,55 @@ class StringUtilsTest {
     void shouldReturnFalseWhenStringIsNotNumericWithDecimals(String value) {
         boolean actual = StringUtils.isNumericWithDecimal(value);
         assertFalse(actual, "This should be false");
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "ABC123, 6, ABC, true",  // Correct length and prefix
+            "XYZ789, 6, XYZ, true",  // Correct length and prefix
+            "123456, 6, '', true",   // Correct length, no specific prefix required
+            "AB1234, 6, AB, true",   // Correct length and prefix
+            "DEF789, 6, DEF, true",  // Correct length and prefix
+            "AAA111, 6, ABC, false", // Incorrect prefix
+            "ABCDE, 6, ABC, false",  // Incorrect length
+            "123456, 5, 123, false", // Incorrect length
+            "XX1234, 6, XYZ, false", // Incorrect prefix
+            "987654, 6, 123, false"  // Incorrect prefix
+    })
+    @DisplayName("Test isValidCode with different code inputs")
+    void shouldValidateCodeCorrectly(String code, int length, String prefix, boolean expected) {
+        boolean actual = StringUtils.isValidCode(code, length, prefix);
+        assertEquals(expected, actual);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "ABC123, 6, ABC",  // Valid case
+            "123456, 6, ''",   // No specific prefix required, valid
+            "X12345, 6, X",    // Single character prefix, valid
+    })
+    @DisplayName("Test isValidCode should return true for valid codes")
+    void shouldReturnTrueForValidCodes(String code, int length, String prefix) {
+        boolean actual = StringUtils.isValidCode(code, length, prefix);
+        assertTrue(actual);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "ABCDE, 6, ABC",   // Too short
+            "123456, 5, 123",  // Too long
+            "XX1234, 6, XYZ",  // Wrong prefix
+    })
+    @DisplayName("Test isValidCode should return false for invalid codes")
+    void shouldReturnFalseForInvalidCodes(String code, int length, String prefix) {
+        boolean actual = StringUtils.isValidCode(code, length, prefix);
+        assertFalse(actual);
+    }
+
+    @Test
+    @DisplayName("Test isValidCode should throw NullPointerException when code is null")
+    void shouldThrowExceptionWhenCodeIsNull() {
+        assertThrows(NullPointerException.class, () -> StringUtils.isValidCode(null, 6, "ABC"));
     }
 
 }
