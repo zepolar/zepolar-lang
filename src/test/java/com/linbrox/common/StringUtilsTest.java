@@ -1,5 +1,6 @@
 package com.linbrox.common;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -189,6 +190,14 @@ class StringUtilsTest {
     void shouldReturnFalseWhenStringIsNotNumericWithDecimals(String value) {
         boolean actual = StringUtils.isNumericWithDecimal(value);
         assertFalse(actual, "This should be false");
+    }
+
+
+    @ParameterizedTest
+    @ValueSource(strings = {"radar", "A man a plan a canal Panama", "No 'x' in Nixon", "12321", "Was it a car or a cat I saw?",""})
+    void shouldReturnTrueWhenStringIsPalindrome(String value) {
+        boolean actual = StringUtils.isPalindrome(value);
+        Assertions.assertTrue(actual, "This should be true for palindromes");
     }
 
 }

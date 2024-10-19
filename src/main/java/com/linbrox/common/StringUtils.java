@@ -232,6 +232,19 @@ public final class StringUtils {
         return true;
     }
 
+    public static boolean isPalindrome(String str1) {
+        if (str1 == null) {
+            return false; // Consideramos que null no es un palíndromo
+        }
 
+        // Normalizar la cadena: eliminar espacios, convertir a minúsculas y eliminar caracteres no alfanuméricos
+        String normalizedStr = str1.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+
+        // Invertir la cadena normalizada
+        String reversedStr = new StringBuilder(normalizedStr).reverse().toString();
+
+        // Comparar la cadena normalizada con su versión invertida
+        return normalizedStr.equals(reversedStr);
+    }
 
 }
