@@ -2,10 +2,10 @@
 # Each line is a file pattern followed by one or more owners.
 
 # Assign security
-/.github/CODEOWNERS     @zepolar
+/.github/CODEOWNERS     @codernarvaez
 
 # These owners will be the default owners for everything in the repo.
-*       @zepolar
+*       @codernarvaez
 
 # You can also use email addresses if you prefer.
-docs/*  @zepolar
+docs/*  @codernarvaez
