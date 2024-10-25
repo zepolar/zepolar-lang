@@ -19,11 +19,11 @@ public final class StringUtils {
      * Checks if a string is empty (null or blank).
      *
      * @param str the string to check
-     * @return {@code true} if the string is empty or blank, {@code false} otherwise
+     * @return {@code true} if the string is empty or blank, {@code false}
+     * otherwise
      * @throws NullPointerException if the string is null
-     * @example StringUtils.isEmpty(" "); // returns true
-     * StringUtils.isEmpty("  "); // returns true
-     * StringUtils.isEmpty("text"); // returns false
+     * @example StringUtils.isEmpty(" "); // returns true StringUtils.isEmpty("
+     * "); // returns true StringUtils.isEmpty("text"); // returns false
      */
     public static boolean isEmpty(String str) {
         Objects.requireNonNull(str, STRING_CANNOT_BE_NULL);
@@ -34,10 +34,11 @@ public final class StringUtils {
      * Checks if a string is not empty (not null or not blank).
      *
      * @param str the string to check
-     * @return {@code true} if the string is not empty or not blank, {@code false} otherwise
+     * @return {@code true} if the string is not empty or not blank,
+     * {@code false} otherwise
      * @throws NullPointerException if the string is null
      * @example StringUtils.isNotEmpty(" "); // returns false
-     * StringUtils.isNotEmpty("  "); // returns false
+     * StringUtils.isNotEmpty(" "); // returns false
      * StringUtils.isNotEmpty("text"); // returns true
      */
     public static boolean isNotEmpty(String str) {
@@ -51,9 +52,8 @@ public final class StringUtils {
      * @param str the string to check
      * @return {@code true} if the string is blank, {@code false} otherwise
      * @throws NullPointerException if the string is null
-     * @example StringUtils.isBlank(" "); // returns true
-     * StringUtils.isBlank("  "); // returns true
-     * StringUtils.isBlank("text"); // returns false
+     * @example StringUtils.isBlank(" "); // returns true StringUtils.isBlank("
+     * "); // returns true StringUtils.isBlank("text"); // returns false
      */
     public static boolean isBlank(String str) {
         Objects.requireNonNull(str, STRING_CANNOT_BE_NULL);
@@ -67,7 +67,7 @@ public final class StringUtils {
      * @return {@code true} if the string is not blank, {@code false} otherwise
      * @throws NullPointerException if the string is null
      * @example StringUtils.isNotBlank(" "); // returns false
-     * StringUtils.isNotBlank("  "); // returns false
+     * StringUtils.isNotBlank(" "); // returns false
      * StringUtils.isNotBlank("text"); // returns true
      */
     public static boolean isNotBlank(String str) {
@@ -95,7 +95,8 @@ public final class StringUtils {
      * Checks if a string is numeric with a decimal point.
      *
      * @param str the string to check
-     * @return {@code true} if the string is numeric with a decimal, {@code false} otherwise
+     * @return {@code true} if the string is numeric with a decimal,
+     * {@code false} otherwise
      * @throws NullPointerException if the string is null
      * @example StringUtils.isNumericWithDecimal(" 123.45 "); // returns true
      * StringUtils.isNumericWithDecimal("-123.45"); // returns true
@@ -110,7 +111,8 @@ public final class StringUtils {
      * Checks if a string is a valid email address.
      *
      * @param str the string to check
-     * @return {@code true} if the string is a valid email, {@code false} otherwise
+     * @return {@code true} if the string is a valid email, {@code false}
+     * otherwise
      * @throws NullPointerException if the string is null
      * @example StringUtils.isEmail("example@example.com"); // returns true
      * StringUtils.isEmail("example@.com"); // returns false
@@ -125,7 +127,8 @@ public final class StringUtils {
      * Checks if a string is alphanumeric.
      *
      * @param str the string to check
-     * @return {@code true} if the string is alphanumeric, {@code false} otherwise
+     * @return {@code true} if the string is alphanumeric, {@code false}
+     * otherwise
      * @throws NullPointerException if the string is null
      * @example StringUtils.isAlphaNumeric(" abc123 "); // returns true
      * StringUtils.isAlphaNumeric("abc 123"); // returns false
@@ -140,7 +143,8 @@ public final class StringUtils {
      * Checks if a string contains only letters.
      *
      * @param str the string to check
-     * @return {@code true} if the string contains only letters, {@code false} otherwise
+     * @return {@code true} if the string contains only letters, {@code false}
+     * otherwise
      * @throws NullPointerException if the string is null
      * @example StringUtils.isAlpha(" abc "); // returns true
      * StringUtils.isAlpha("123"); // returns false
@@ -149,6 +153,27 @@ public final class StringUtils {
     public static boolean isAlpha(String str) {
         Objects.requireNonNull(str, STRING_CANNOT_BE_NULL);
         return ALPHA_PATTERN.matcher(str.trim()).matches();
+    }
+
+    /**
+     * Checks if a string contains only lowercase letters.
+     *
+     * @param str the string to check
+     * @return {@code true} if the string contains only lowercase letters,
+     * {@code false} otherwise
+     * @throws NullPointerException if the string is null
+     * @example StringUtils.isLowerCase("abc"); // returns true
+     * StringUtils.isLowerCase("ABC"); // returns false
+     * StringUtils.isLowerCase("abc123"); // returns false
+     */
+    public static boolean isLowerCase(String str) {
+        Objects.requireNonNull(str, STRING_CANNOT_BE_NULL);
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isLowerCase(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static String capitalize(String str) {
@@ -203,7 +228,7 @@ public final class StringUtils {
         }
         return str.repeat(count);
     }
-    
+
     public static boolean areStringsEqual(String str1, String str2) {
         Objects.requireNonNull(str1, "String 1 cannot be null");
         Objects.requireNonNull(str2, "String 2 cannot be null");
@@ -231,7 +256,5 @@ public final class StringUtils {
         }
         return true;
     }
-
-
 
 }
