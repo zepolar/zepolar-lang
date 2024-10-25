@@ -74,7 +74,24 @@ public final class StringUtils {
         Objects.requireNonNull(str, STRING_CANNOT_BE_NULL);
         return !str.trim().isEmpty();
     }
-
+    /**
+ 
+    Checks if a string contains only uppercase letters.*
+    @param str the string to check
+    @return {@code true} if the string contains only uppercase letters, {@code false} otherwise
+    @throws NullPointerException if the string is null
+    @example StringUtils.isUpperCase("ABC"); // returns true
+    StringUtils.isUpperCase("abc"); // returns false
+    StringUtils.isUpperCase("ABC123"); // returns false*/
+    public static boolean isUpperCase(String str) {
+        Objects.requireNonNull(str, STRING_CANNOT_BE_NULL);
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isUpperCase(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * Checks if a string is numeric.
      *
