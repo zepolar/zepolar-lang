@@ -57,5 +57,37 @@ class NumericUtilsTest {
         String value = null;
         assertThrows(Exception.class, () -> NumericUtils.toBigDecimal(value));
     }
+    // Prueba que verifica que se lanza una excepción cuando la cadena es nula.
+    @Test
+    public void testToDouble_nullString() {
+        assertThrows(NullPointerException.class, () -> {
+            NumericUtils.toDouble(null);
+        });
+    }
+
+    // Prueba que verifica la conversión de una cadena válida a un valor BigDecimal.
+    @Test
+    public void testToBigDecimal_validString() {
+        String validBigDecimalStr = "123456.789";
+        BigDecimal result = NumericUtils.toBigDecimal(validBigDecimalStr);
+        assertEquals(new BigDecimal("123456.789"), result);
+    }
+
+    // Prueba que verifica que se lanza una excepción cuando la cadena no es válida para un BigDecimal.
+    @Test
+    public void testToBigDecimal_invalidString() {
+        String invalidBigDecimalStr = "invalid";
+        assertThrows(NumberFormatException.class, () -> {
+            NumericUtils.toBigDecimal(invalidBigDecimalStr);
+        });
+    }
+
+    // Prueba que verifica que se lanza una excepción cuando la cadena es nula.
+    @Test
+    public void testToBigDecimal_nullString() {
+        assertThrows(NullPointerException.class, () -> {
+            NumericUtils.toBigDecimal(null);
+        });
+    }
 
 }
